@@ -5,8 +5,13 @@ import { Navbar } from "@/components/Navbar";
 import { MatrixRain } from "@/components/MatrixRain";
 import { BookOpen, ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { CourseForm, type CourseFormData } from "@/components/create-course/CourseForm";
+import {
+  CourseForm,
+  type CourseFormData,
+} from "@/components/create-course/CourseForm";
 import { ChapterReview } from "@/components/create-course/ChapterReview";
+import { generateCourseAction } from "@/app/actions/generate-course";
+import { useRouter } from "next/navigation";
 
 // Mock chapter generator — returns 8 chapter titles based on the course title
 function generateMockChapters(title: string): string[] {
@@ -29,11 +34,27 @@ export default function CreateCoursePage() {
     description: "",
   });
   const [chapters, setChapters] = useState<string[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const handleFormSubmit = (data: CourseFormData) => {
+  const handleFormSubmit = async (data: CourseFormData) => {
     setFormData(data);
-    setChapters(generateMockChapters(data.title));
-    setStep("chapters");
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      const res = await generateCourseAction(data);
+      if (!res.success) {
+        setError(res.error || "Something went wrong.");
+        setIsGenerating(false);
+      } else {
+        router.push("/dashboard");
+      }
+    } catch (err) {
+      setError("Failed to generate course. Please try again.");
+      setIsGenerating(false);
+    }
   };
 
   const handleGoBack = () => {
@@ -88,9 +109,15 @@ export default function CreateCoursePage() {
                   Give your course a title and a short description. The AI will
                   handle the rest.
                 </p>
+                {error && (
+                  <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                    {error}
+                  </div>
+                )}
                 <CourseForm
                   initialData={formData}
                   onSubmit={handleFormSubmit}
+                  isLoading={isGenerating}
                 />
               </>
             )}

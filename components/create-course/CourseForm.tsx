@@ -20,9 +20,10 @@ export type CourseFormData = z.infer<typeof courseSchema>;
 interface CourseFormProps {
   initialData: CourseFormData;
   onSubmit: (data: CourseFormData) => void;
+  isLoading?: boolean;
 }
 
-export function CourseForm({ initialData, onSubmit }: CourseFormProps) {
+export function CourseForm({ initialData, onSubmit, isLoading = false }: CourseFormProps) {
   const [title, setTitle] = useState(initialData.title);
   const [description, setDescription] = useState(initialData.description);
   const [errors, setErrors] = useState<{ title?: string; description?: string }>(
@@ -62,11 +63,12 @@ export function CourseForm({ initialData, onSubmit }: CourseFormProps) {
           id="title"
           type="text"
           value={title}
+          disabled={isLoading}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="e.g. Machine Learning Fundamentals"
           className={`w-full rounded-xl border ${
             errors.title ? "border-red-500/60" : "border-slate-800"
-          } bg-black/40 text-white placeholder:text-slate-600 px-4 py-3 text-sm focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-colors`}
+          } bg-black/40 text-white placeholder:text-slate-600 px-4 py-3 text-sm focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
         />
         {errors.title && (
           <p className="mt-1.5 text-xs text-red-400">{errors.title}</p>
@@ -84,12 +86,13 @@ export function CourseForm({ initialData, onSubmit }: CourseFormProps) {
         <textarea
           id="description"
           value={description}
+          disabled={isLoading}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Briefly describe what this course should cover..."
           rows={4}
           className={`w-full rounded-xl border ${
             errors.description ? "border-red-500/60" : "border-slate-800"
-          } bg-black/40 text-white placeholder:text-slate-600 px-4 py-3 text-sm focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-colors resize-none`}
+          } bg-black/40 text-white placeholder:text-slate-600 px-4 py-3 text-sm focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/30 transition-colors resize-none disabled:opacity-50 disabled:cursor-not-allowed`}
         />
         {errors.description && (
           <p className="mt-1.5 text-xs text-red-400">{errors.description}</p>
@@ -99,10 +102,11 @@ export function CourseForm({ initialData, onSubmit }: CourseFormProps) {
       {/* Submit */}
       <button
         type="submit"
-        className="cursor-pointer w-full inline-flex items-center justify-center gap-2 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-600 hover:bg-blue-500 text-white px-5 py-3 shadow-[0_0_24px_rgba(59,130,246,0.20)] hover:shadow-[0_0_32px_rgba(59,130,246,0.35)]"
+        disabled={isLoading}
+        className="cursor-pointer w-full inline-flex items-center justify-center gap-2 rounded-xl text-sm font-medium transition-all duration-300 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-600/50 disabled:cursor-not-allowed text-white px-5 py-3 shadow-[0_0_24px_rgba(59,130,246,0.20)] hover:shadow-[0_0_32px_rgba(59,130,246,0.35)] disabled:hover:shadow-none"
       >
         <Sparkles className="w-4 h-4" />
-        Generate Chapters
+        {isLoading ? "Generating..." : "Generate Chapters"}
       </button>
     </form>
   );

@@ -3,6 +3,9 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { DashboardClient } from "@/components/DashboardClient";
+import { db } from "@/lib/db";
+import { courses } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -15,10 +18,18 @@ export default async function DashboardPage() {
 
   const { user } = session;
 
+  const userCourses = await db
+    .select()
+    .from(courses)
+    .where(eq(courses.userId, user.id));
+
   return (
     <>
       <Navbar />
-      <DashboardClient user={{ name: user.name, email: user.email }} />
+      <DashboardClient
+        user={{ name: user.name, email: user.email }}
+        courses={userCourses}
+      />
     </>
   );
 }

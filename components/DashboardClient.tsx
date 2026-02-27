@@ -77,19 +77,20 @@ const mockCourses: Course[] = [
 // ───────────────────────────────────────────────────
 interface DashboardClientProps {
   user: { name?: string | null; email?: string | null };
+  courses: Partial<Course>[];
 }
 
-export function DashboardClient({ user }: DashboardClientProps) {
+export function DashboardClient({ user, courses }: DashboardClientProps) {
   const router = useRouter();
 
-  const inProgress = mockCourses.filter(
+  const inProgress = courses.filter(
     (c) => c.activeChapterOrder && c.activeChapterOrder > 0
   );
-  const library = mockCourses.filter(
+  const library = courses.filter(
     (c) => !c.activeChapterOrder || c.activeChapterOrder === 0
   );
 
-  const isEmpty = mockCourses.length === 0;
+  const isEmpty = courses.length === 0;
 
   // Gradient palette for card image placeholders
   const gradients = [
