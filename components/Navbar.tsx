@@ -4,118 +4,77 @@ import Link from "next/link";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 export function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
-
+  
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
   const handleSignIn = async () => {
     await authClient.signIn.social({
-      provider: "google",
-      callbackURL: "/dashboard",
+        provider: "google",
+        callbackURL: "/dashboard"
     });
   };
 
   const handleSignOut = async () => {
     await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
-        },
-      },
+        fetchOptions: {
+            onSuccess: () => {
+                router.push("/");
+            }
+        }
     });
   };
 
   return (
-    <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-full border border-white/10 bg-black/40 backdrop-blur-md shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-      <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-black font-bold text-lg">
-              C
-            </div>
-            <span className="font-semibold text-lg tracking-tight text-white hidden sm:block">
-              CourseGen
-            </span>
-          </Link>
-        </div>
+    <header className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#0a0a0a]/80 backdrop-blur-xl">
+      <div className="w-full px-6 sm:px-10 lg:px-16 flex h-16 items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5 shrink-0">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-indigo-500/20">C</div>
+          <span className="font-semibold text-lg tracking-tight text-white">CourseGen</span>
+        </Link>
 
-        <nav className="hidden md:flex items-center space-x-8">
-          <Link
-            href="/"
-            className="text-sm text-gray-300 hover:text-white transition-colors"
-          >
-            Home
-          </Link>
-          <Link
-            href="#products"
-            className="text-sm text-gray-300 hover:text-white transition-colors"
-          >
-            Products
-          </Link>
-          <Link
-            href="#about"
-            className="text-sm text-gray-300 hover:text-white transition-colors"
-          >
-            About us
-          </Link>
-          <Link
-            href="#pricing"
-            className="text-sm text-gray-300 hover:text-white transition-colors"
-          >
-            Pricing
-          </Link>
-          <Link
-            href="#contact"
-            className="text-sm text-gray-300 hover:text-white transition-colors"
-          >
-            Contact us
-          </Link>
-        </nav>
-
-        <div className="flex items-center justify-end space-x-4 shrink-0">
+        {/* Right Actions */}
+        <div className="flex items-center gap-3 shrink-0">
           {isPending ? (
-            <div className="w-8 h-8 rounded-full bg-white/10 animate-pulse" />
+            <div className="w-9 h-9 rounded-full bg-white/5 animate-pulse" />
           ) : !user ? (
-            <button
+            <button 
               onClick={handleSignIn}
-              className="inline-flex items-center justify-center rounded-full text-sm font-medium transition-all duration-300 bg-white/10 text-white hover:bg-white/20 border border-white/10 h-10 px-6 backdrop-blur-sm"
+              className="group relative inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium h-10 px-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] transition-all duration-300 overflow-hidden"
             >
-              Log In
+              <span className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <span className="relative flex items-center gap-2">
+                Get Started
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </span>
             </button>
           ) : (
-            <div className="relative flex items-center gap-4">
-              <Link
-                href="/dashboard"
-                className="text-sm text-gray-300 hover:text-white hidden sm:block"
-              >
-                Dashboard
-              </Link>
-              <button
+            <div className="relative flex items-center gap-3">
+              <Link href="/dashboard" className="text-sm text-gray-400 hover:text-white transition-colors hidden sm:block">Dashboard</Link>
+              <button 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500 text-white hover:opacity-90 transition font-medium"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:opacity-90 transition font-medium text-sm"
                 aria-label="Toggle user menu"
               >
                 {user.name?.charAt(0).toUpperCase() || "U"}
               </button>
-
+              
               {isDropdownOpen && (
-                <div className="absolute right-0 top-12 mt-2 w-56 p-2 rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-xl backdrop-blur-xl z-50">
-                  <div className="px-3 py-2">
-                    <p className="text-sm font-medium text-white truncate">
-                      {user.name}
-                    </p>
-                    <p className="text-xs text-gray-400 truncate mt-0.5">
-                      {user.email}
-                    </p>
+                <div className="absolute right-0 top-full mt-2 w-56 p-1.5 rounded-xl border border-white/10 bg-[#111] shadow-xl z-50">
+                  <div className="px-3 py-2.5">
+                    <p className="text-sm font-medium text-white truncate">{user.name}</p>
+                    <p className="text-xs text-gray-500 truncate mt-0.5">{user.email}</p>
                   </div>
-                  <div className="h-px bg-white/10 my-1 mx-2" />
-                  <button
+                  <div className="h-px bg-white/[0.06] mx-2" />
+                  <button 
                     onClick={handleSignOut}
-                    className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-xl transition-colors"
+                    className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-lg transition-colors mt-1"
                   >
                     Sign out
                   </button>
@@ -125,6 +84,6 @@ export function Navbar() {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 }

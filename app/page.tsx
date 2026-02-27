@@ -1,204 +1,377 @@
 import { Navbar } from "@/components/Navbar";
-import { ArrowRight, Sparkles, Search, CheckCircle2, Star } from "lucide-react";
+import {
+  ArrowRight,
+  Zap,
+  BookOpen,
+  Brain,
+  BarChart3,
+  CheckCircle2,
+} from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative overflow-hidden selection:bg-indigo-500/30">
-      {/* Ambient Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:64px_64px] pointer-events-none" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(79,70,229,0.15),transparent_70%)] pointer-events-none" />
-
+    <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans">
       <Navbar />
-      
-      <main className="flex-1 flex flex-col items-center pt-48 pb-24 z-10 w-full">
-        
-        {/* HERO SECTION */}
-        <section className="flex flex-col items-center text-center px-4 max-w-5xl mx-auto w-full mb-32">
-          <h1 className="text-5xl sm:text-7xl font-semibold tracking-tight text-white mb-6 font-serif">
-            Master the skills that <br className="hidden sm:block" /> shape the future.
-          </h1>
-          
-          <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mb-12 font-light">
-            Revolutionize your digital learning using Artificial Intelligence. Generate, manage, and share immersive courses in seconds.
-          </p>
-          
-          <div className="relative w-full max-w-md group">
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full blur opacity-30 group-hover:opacity-60 transition duration-500"></div>
-            <div className="relative flex items-center bg-black/50 border border-white/10 rounded-full p-1 pl-6 backdrop-blur-xl shadow-2xl">
-              <Search className="w-5 h-5 text-gray-400" />
-              <input 
-                type="text" 
-                placeholder="Search for topics or generate a course..." 
-                className="flex-1 bg-transparent border-none text-white text-sm focus:outline-none px-4 py-3 placeholder:text-gray-500"
+
+      {/* ═══════════════════════════════════════════  HERO  ═══════════════════════════════════════════ */}
+      <section className="relative flex flex-col items-center text-center px-6 pt-32 pb-40 overflow-hidden">
+        {/* Ambient glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.12),transparent_70%)] pointer-events-none" />
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.08),transparent_70%)] pointer-events-none" />
+
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-xs text-gray-400 mb-8 uppercase tracking-widest font-medium">
+          <Zap className="w-3.5 h-3.5 text-indigo-400" />
+          Powered by AI
+        </div>
+
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight text-white max-w-5xl leading-[1.05] mb-8">
+          Learn anything.
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
+            Powered by AI.
+          </span>
+        </h1>
+
+        <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mb-12 leading-relaxed font-light">
+          Generate complete, structured courses on any topic in seconds. From
+          quantum physics to watercolor painting — our AI adapts to your
+          learning style.
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="group inline-flex items-center justify-center rounded-xl text-base font-medium transition-all duration-300 bg-white text-black hover:bg-gray-100 h-13 px-8 py-3.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:scale-[1.02]"
+          >
+            Start Learning — Free
+            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+          <Link
+            href="#features"
+            className="inline-flex items-center justify-center rounded-xl text-base font-medium transition-colors text-gray-400 hover:text-white h-13 px-8 py-3.5"
+          >
+            See how it works
+          </Link>
+        </div>
+
+        {/* Social proof */}
+        <div className="mt-24 flex flex-col items-center gap-4">
+          <div className="flex -space-x-2">
+            {[...Array(5)].map((_, i) => (
+              <div
+                key={i}
+                className="w-8 h-8 rounded-full border-2 border-[#0a0a0a] bg-gradient-to-br from-gray-700 to-gray-800"
               />
-              <Link 
-                href="/dashboard"
-                className="inline-flex items-center justify-center rounded-full text-sm font-medium transition-colors bg-white text-black hover:bg-gray-200 px-6 py-2.5 shadow-sm"
-              >
-                Sign up now
-              </Link>
-            </div>
+            ))}
           </div>
-          
-          <div className="mt-20 flex flex-col items-center gap-6 opacity-70">
-            <p className="text-sm text-gray-500 tracking-wider uppercase font-semibold">Trusted by Innovative Educators</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 grayscale">
-              {["MITx", "Harvard", "Stanford", "Coursera", "Udemy"].map((partner) => (
-                <span key={partner} className="text-xl font-bold text-gray-400">{partner}</span>
-              ))}
-            </div>
-          </div>
-        </section>
+          <p className="text-sm text-gray-500">
+            Joined by <span className="text-gray-300 font-medium">12,000+</span>{" "}
+            learners this month
+          </p>
+        </div>
+      </section>
 
-        {/* FEATURED CARDS SECTION */}
-        <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 mb-32">
+      {/* ═══════════════════════════════════════════  FEATURES  ═══════════════════════════════════════════ */}
+      <section
+        id="features"
+        className="relative w-full px-6 sm:px-10 lg:px-16 py-32"
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <p className="text-sm text-indigo-400 uppercase tracking-widest font-semibold mb-4">
+              Why CourseGen?
+            </p>
+            <h2 className="text-3xl sm:text-5xl font-bold text-white leading-tight">
+              The smartest way to learn,
+              <br className="hidden sm:block" /> built for the curious mind.
+            </h2>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="col-span-1 md:col-span-1 bg-[#8FB9A6] rounded-[2rem] p-8 text-black flex flex-col justify-between aspect-[4/3] group cursor-pointer hover:scale-[1.02] transition-transform">
-              <div className="flex justify-between items-start mb-12">
-                <span className="flex items-center text-sm font-bold"><Star className="w-4 h-4 fill-black mr-1" /> 4.9</span>
-                <span className="text-sm font-medium">1.4M Students</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Cybersecurity & <br/> Ethical Hacking</h3>
-                <div className="flex justify-between items-end">
-                  <p className="text-black/70 font-medium">(20 Courses)</p>
-                  <div className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center group-hover:bg-black group-hover:text-[#8FB9A6] transition-colors"><ArrowRight className="w-5 h-5 -rotate-45" /></div>
+            {[
+              {
+                icon: Brain,
+                title: "AI-Generated Courses",
+                desc: "Enter any topic and get a complete, structured course with chapters, explanations, and resources — in seconds.",
+                gradient: "from-indigo-500/20 to-indigo-500/5",
+                iconColor: "text-indigo-400",
+              },
+              {
+                icon: BookOpen,
+                title: "Learn Any Subject",
+                desc: "From programming to philosophy, from cooking to calculus. Our AI generates expert-level content on virtually any topic.",
+                gradient: "from-purple-500/20 to-purple-500/5",
+                iconColor: "text-purple-400",
+              },
+              {
+                icon: BarChart3,
+                title: "Track Your Progress",
+                desc: "Navigate through chapters at your own pace. Pick up exactly where you left off with automatic progress tracking.",
+                gradient: "from-pink-500/20 to-pink-500/5",
+                iconColor: "text-pink-400",
+              },
+            ].map((feature, i) => (
+              <div
+                key={i}
+                className="group relative p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-300 hover:bg-white/[0.04]"
+              >
+                <div
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-b ${feature.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none`}
+                />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-6">
+                    <feature.icon className={`w-6 h-6 ${feature.iconColor}`} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed text-[15px]">
+                    {feature.desc}
+                  </p>
                 </div>
               </div>
-            </div>
-
-            <div className="col-span-1 md:col-span-1 bg-[#C2D6DB] rounded-[2rem] p-8 text-black flex flex-col justify-between aspect-[4/3] group cursor-pointer hover:scale-[1.02] transition-transform">
-              <div className="flex justify-between items-start mb-12">
-                <span className="flex items-center text-sm font-bold"><Star className="w-4 h-4 fill-black mr-1" /> 4.8</span>
-                <span className="text-sm font-medium">999K Students</span>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold mb-2">Digital Marketing <br/> Masterclass</h3>
-                <div className="flex justify-between items-end">
-                  <p className="text-black/70 font-medium">(30 Courses)</p>
-                  <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center group-hover:scale-110 transition-transform"><ArrowRight className="w-5 h-5 -rotate-45" /></div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-1 md:col-span-1 flex flex-col gap-6 h-full">
-              <div className="bg-[#E4C87F] rounded-[2rem] p-6 text-black flex-1 flex flex-col justify-between group cursor-pointer hover:scale-[1.02] transition-transform">
-                <div className="flex justify-between items-start">
-                  <span className="flex items-center text-sm font-bold"><Star className="w-4 h-4 fill-black mr-1" /> 4.5</span>
-                  <span className="text-sm font-medium">1.2M Students</span>
-                </div>
-                <div>
-                   <h3 className="text-xl font-bold mb-1">Digital Strategy</h3>
-                   <div className="flex justify-between items-center">
-                     <p className="text-black/70 font-medium">(14 Courses)</p>
-                     <ArrowRight className="w-5 h-5 -rotate-45" />
-                   </div>
-                </div>
-              </div>
-
-              <div className="bg-[#9BBFA3] rounded-[2rem] p-6 text-black flex-1 flex flex-col justify-between group cursor-pointer hover:scale-[1.02] transition-transform">
-                <div className="flex justify-between items-start">
-                  <span className="flex items-center text-sm font-bold"><Star className="w-4 h-4 fill-black mr-1" /> 4.7</span>
-                  <span className="text-sm font-medium">1M Students</span>
-                </div>
-                <div>
-                   <h3 className="text-xl font-bold mb-1">Cybersecurity</h3>
-                   <div className="flex justify-between items-center">
-                     <p className="text-black/70 font-medium">(07 Courses)</p>
-                     <ArrowRight className="w-5 h-5 -rotate-45" />
-                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-span-1 md:col-span-1 bg-[#E1A693] rounded-[2rem] p-6 text-black flex flex-col justify-between h-48 group cursor-pointer hover:scale-[1.02] transition-transform">
-               <div className="flex justify-between items-start">
-                  <span className="flex items-center text-sm font-bold"><Star className="w-4 h-4 fill-black mr-1" /> 5.0</span>
-                  <span className="text-sm font-medium">950K Students</span>
-                </div>
-                <div className="flex justify-between items-end">
-                   <h3 className="text-xl font-bold">Cloud Computing</h3>
-                   <ArrowRight className="w-5 h-5 -rotate-45" />
-                </div>
-            </div>
-
-            <div className="col-span-1 md:col-span-2 bg-[#BA98A1] rounded-[2rem] p-6 sm:p-8 text-black flex flex-col justify-between h-48 group cursor-pointer hover:scale-[1.02] transition-transform">
-                <div className="flex justify-between items-start">
-                  <span className="flex items-center text-sm font-bold"><Star className="w-4 h-4 fill-black mr-1" /> 5.0</span>
-                  <span className="text-sm font-medium">1.9M Students</span>
-                </div>
-                <div className="flex justify-between items-end">
-                   <div>
-                     <h3 className="text-2xl font-bold mb-1">Graphic Design</h3>
-                     <p className="text-black/70 font-medium">Foundations (12 Courses)</p>
-                   </div>
-                   <ArrowRight className="w-6 h-6 -rotate-45" />
-                </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* PRICING SECTION */}
-        <section id="pricing" className="w-full max-w-5xl mx-auto px-4 py-24 border-t border-white/5">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Simple, transparent pricing</h2>
-            <p className="text-gray-400">Choose the perfect plan for your learning journey.</p>
+      {/* ═══════════════════════════════════════════  PRICING  ═══════════════════════════════════════════ */}
+      <section
+        id="pricing"
+        className="relative w-full px-6 sm:px-10 lg:px-16 py-32"
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.04),transparent_70%)] pointer-events-none" />
+        <div className="max-w-5xl mx-auto relative">
+          <div className="text-center mb-20">
+            <p className="text-sm text-indigo-400 uppercase tracking-widest font-semibold mb-4">
+              Pricing
+            </p>
+            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-4">
+              Start free, scale when ready.
+            </h2>
+            <p className="text-gray-400 text-lg">
+              No credit card required. Upgrade anytime.
+            </p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="p-8 rounded-3xl bg-white/5 border border-white/10 flex flex-col">
-              <h3 className="text-xl font-semibold text-white mb-2">Free</h3>
-              <p className="text-gray-400 mb-6 text-sm">Perfect for getting started</p>
-              <div className="mb-6"><span className="text-5xl font-bold text-white">$0</span><span className="text-gray-500">/month</span></div>
-              <ul className="space-y-4 mb-8 flex-1">
-                {["Generate up to 3 courses", "Basic AI models", "Community support"].map((feature, i) => (
-                  <li key={i} className="flex items-center text-gray-300 text-sm">
-                    <CheckCircle2 className="w-5 h-5 text-indigo-400 mr-3 shrink-0" />
-                    {feature}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free */}
+            <div className="flex flex-col p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+              <h3 className="text-lg font-semibold text-white mb-1">Free</h3>
+              <p className="text-sm text-gray-500 mb-6">For getting started</p>
+              <div className="mb-8">
+                <span className="text-4xl font-bold text-white">$0</span>
+                <span className="text-gray-500 ml-1">/month</span>
+              </div>
+              <ul className="space-y-3 mb-8 flex-1">
+                {[
+                  "3 course generations",
+                  "Basic AI model",
+                  "Community support",
+                ].map((f, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start text-sm text-gray-300"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-gray-600 mr-2.5 mt-0.5 shrink-0" />
+                    {f}
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors font-medium">
+              <button className="w-full py-3 rounded-xl border border-white/[0.1] text-sm font-medium text-white hover:bg-white/[0.04] transition-colors">
                 Get Started
               </button>
             </div>
-            
-            <div className="p-8 rounded-3xl bg-gradient-to-b from-indigo-500/20 to-purple-500/10 border border-indigo-500/30 flex flex-col relative">
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-400 to-transparent"></div>
-              <div className="absolute top-0 right-8 -translate-y-1/2 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Most Popular</div>
-              <h3 className="text-xl font-semibold text-white mb-2">Pro</h3>
-              <p className="text-gray-400 mb-6 text-sm">For serious learners and creators</p>
-              <div className="mb-6"><span className="text-5xl font-bold text-white">$19</span><span className="text-gray-500">/month</span></div>
-              <ul className="space-y-4 mb-8 flex-1">
-                {["Unlimited course generations", "Advanced GPT-4 integration", "Priority support", "Analytics and student tracking"].map((feature, i) => (
-                  <li key={i} className="flex items-center text-gray-300 text-sm">
-                    <CheckCircle2 className="w-5 h-5 text-indigo-400 mr-3 shrink-0" />
-                    {feature}
+
+            {/* Pro — highlighted */}
+            <div className="flex flex-col p-8 rounded-2xl bg-white/[0.04] border border-indigo-500/30 relative">
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-indigo-500/[0.08] to-transparent pointer-events-none" />
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-indigo-400/60 to-transparent" />
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-indigo-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                Popular
+              </div>
+              <div className="relative">
+                <h3 className="text-lg font-semibold text-white mb-1">Pro</h3>
+                <p className="text-sm text-gray-500 mb-6">
+                  For serious learners
+                </p>
+                <div className="mb-8">
+                  <span className="text-4xl font-bold text-white">$12</span>
+                  <span className="text-gray-500 ml-1">/month</span>
+                </div>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {[
+                    "Unlimited generations",
+                    "GPT-4 powered content",
+                    "Priority support",
+                    "Progress analytics",
+                  ].map((f, i) => (
+                    <li
+                      key={i}
+                      className="flex items-start text-sm text-gray-300"
+                    >
+                      <CheckCircle2 className="w-4 h-4 text-indigo-400 mr-2.5 mt-0.5 shrink-0" />
+                      {f}
+                    </li>
+                  ))}
+                </ul>
+                <button className="w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-sm font-medium text-white transition-colors shadow-[0_0_20px_rgba(99,102,241,0.25)]">
+                  Upgrade to Pro
+                </button>
+              </div>
+            </div>
+
+            {/* Team */}
+            <div className="flex flex-col p-8 rounded-2xl bg-white/[0.02] border border-white/[0.06]">
+              <h3 className="text-lg font-semibold text-white mb-1">Team</h3>
+              <p className="text-sm text-gray-500 mb-6">For organizations</p>
+              <div className="mb-8">
+                <span className="text-4xl font-bold text-white">$39</span>
+                <span className="text-gray-500 ml-1">/month</span>
+              </div>
+              <ul className="space-y-3 mb-8 flex-1">
+                {[
+                  "Everything in Pro",
+                  "Team management",
+                  "Custom branding",
+                  "API access",
+                  "Dedicated support",
+                ].map((f, i) => (
+                  <li
+                    key={i}
+                    className="flex items-start text-sm text-gray-300"
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-gray-600 mr-2.5 mt-0.5 shrink-0" />
+                    {f}
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-full bg-indigo-500 hover:bg-indigo-600 text-white transition-colors font-medium shadow-[0_0_20px_rgba(99,102,241,0.3)]">
-                Upgrade to Pro
+              <button className="w-full py-3 rounded-xl border border-white/[0.1] text-sm font-medium text-white hover:bg-white/[0.04] transition-colors">
+                Contact Sales
               </button>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-      </main>
+      {/* ═══════════════════════════════════════════  CTA  ═══════════════════════════════════════════ */}
+      <section className="relative w-full px-6 sm:px-10 lg:px-16 py-32">
+        <div className="max-w-4xl mx-auto text-center relative">
+          <div className="absolute inset-0 -m-16 rounded-3xl bg-gradient-to-b from-indigo-500/[0.06] to-purple-500/[0.03] border border-white/[0.04] pointer-events-none" />
+          <div className="relative">
+            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6 leading-tight">
+              Ready to transform the way
+              <br className="hidden sm:block" /> you learn?
+            </h2>
+            <p className="text-lg text-gray-400 mb-10 max-w-xl mx-auto">
+              Join thousands of learners using AI to master new skills faster
+              than ever before.
+            </p>
+            <Link
+              href="/dashboard"
+              className="group inline-flex items-center justify-center rounded-xl text-base font-medium transition-all duration-300 bg-white text-black hover:bg-gray-100 h-13 px-10 py-3.5 shadow-[0_0_30px_rgba(255,255,255,0.08)] hover:shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:scale-[1.02]"
+            >
+              Get Started for Free
+              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 bg-black/50 py-12 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center space-x-2">
-             <span className="font-bold text-xl tracking-tight text-white">CourseGen</span>
+      {/* ═══════════════════════════════════════════  FOOTER  ═══════════════════════════════════════════ */}
+      <footer className="border-t border-white/[0.06] pt-16 pb-10">
+        <div className="w-full px-6 sm:px-10 lg:px-16 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+            {/* Brand */}
+            <div className="col-span-2 md:col-span-1">
+              <div className="flex items-center gap-2.5 mb-4">
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-indigo-500/20">
+                  C
+                </div>
+                <span className="font-semibold text-lg text-white">
+                  CourseGen
+                </span>
+              </div>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
+                AI-powered course generation for the curious mind. Learn
+                anything, anytime.
+              </p>
+            </div>
+
+            {/* Product */}
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-4">Product</h4>
+              <ul className="space-y-2.5">
+                {["Features", "Pricing", "How it works", "Changelog"].map(
+                  (item) => (
+                    <li key={item}>
+                      <Link
+                        href="#"
+                        className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-4">Company</h4>
+              <ul className="space-y-2.5">
+                {["About", "Blog", "Careers", "Contact"].map((item) => (
+                  <li key={item}>
+                    <Link
+                      href="#"
+                      className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-4">Legal</h4>
+              <ul className="space-y-2.5">
+                {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(
+                  (item) => (
+                    <li key={item}>
+                      <Link
+                        href="#"
+                        className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ),
+                )}
+              </ul>
+            </div>
           </div>
-          <div className="flex space-x-6 text-sm text-gray-400">
-            <Link href="#" className="hover:text-white transition-colors">Terms</Link>
-            <Link href="#" className="hover:text-white transition-colors">Privacy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Contact</Link>
+
+          {/* Bottom bar */}
+          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-xs text-gray-600">
+              © 2026 CourseGen Inc. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6">
+              {["Twitter", "GitHub", "Discord"].map((social) => (
+                <Link
+                  key={social}
+                  href="#"
+                  className="text-xs text-gray-600 hover:text-gray-400 transition-colors"
+                >
+                  {social}
+                </Link>
+              ))}
+            </div>
           </div>
-          <p className="text-sm text-gray-600">© 2026 CourseGen Inc. All rights reserved.</p>
         </div>
       </footer>
     </div>

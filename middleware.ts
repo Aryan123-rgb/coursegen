@@ -1,4 +1,3 @@
-import { auth } from "@/lib/auth"; // path to your auth file
 import { betterFetch } from "@better-fetch/fetch";
 import type { Session } from "better-auth/types";
 import { NextResponse, type NextRequest } from "next/server";
@@ -20,9 +19,9 @@ export default async function authMiddleware(request: NextRequest) {
     // this regex checks if it's the exact root pattern with an id e.g., /123
     /^\/[a-zA-Z0-9_-]+$/.test(request.nextUrl.pathname) ||
     /^\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+$/.test(request.nextUrl.pathname);
-    
+
   // Exclude some typical unauthenticated routes explicitly 
-  const isPublicRoute = 
+  const isPublicRoute =
     request.nextUrl.pathname === "/" ||
     request.nextUrl.pathname.startsWith("/api/auth");
 
