@@ -168,7 +168,11 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                       <button
                         key={course.id}
                         onClick={() =>
-                          router.push(`/${course.activeChapterId}`)
+                          router.push(
+                            course.activeChapterId
+                              ? `/course/${course.id}?chapterId=${course.activeChapterId}`
+                              : `/course/${course.id}`
+                          )
                         }
                         className="cursor-pointer group text-left rounded-2xl border border-slate-800 bg-white/[0.03] backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                       >
@@ -217,7 +221,11 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                     <button
                       key={course.id}
                       onClick={() =>
-                        router.push(`/${course.activeChapterId}`)
+                        router.push(
+                          course.activeChapterId
+                            ? `/course/${course.id}?chapterId=${course.activeChapterId}`
+                            : `/course/${course.id}`
+                        )
                       }
                       className="cursor-pointer group text-left rounded-2xl border border-slate-800 bg-white/[0.03] backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                     >

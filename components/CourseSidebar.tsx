@@ -47,7 +47,7 @@ export function CourseSidebar({
           return (
             <Link
               key={chapter.id}
-              href={`/chapters/${chapter.id}`}
+              href={`/course/${courseData.id || "mock"}?chapterId=${chapter.id}`}
               className={`
                 flex items-start gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 group
                 ${

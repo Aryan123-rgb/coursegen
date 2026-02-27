@@ -4,30 +4,67 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { mockCourseData } from "@/lib/mock-course-data";
 import { CourseSidebar } from "@/components/CourseSidebar";
 import { CourseSidebarDrawer } from "@/components/CourseSidebarDrawer";
+import { db } from "@/lib/db";
+import { courses, chapters as chaptersSchema } from "@/lib/db/schema";
+import { eq, asc } from "drizzle-orm";
+import type { CourseData, Chapter } from "@/lib/mock-course-data";
 
-interface ChapterPageProps {
-  params: Promise<{ chapterId: string }>;
+interface CoursePageProps {
+  params: Promise<{ courseId: string }>;
+  searchParams: Promise<{ chapterId?: string }>;
 }
 
-export default async function ChapterPage({ params }: ChapterPageProps) {
-  const { chapterId } = await params;
+export default async function CoursePage({ params, searchParams }: CoursePageProps) {
+  const { courseId } = await params;
+  const { chapterId } = await searchParams;
 
-  const activeChapter = mockCourseData.chapters.find(
-    (ch) => ch.id === chapterId
+  const [courseRecord] = await db
+    .select()
+    .from(courses)
+    .where(eq(courses.id, courseId));
+
+  if (!courseRecord) {
+    notFound();
+  }
+
+  const courseChapters = await db
+    .select()
+    .from(chaptersSchema)
+    .where(eq(chaptersSchema.courseId, courseId))
+    .orderBy(asc(chaptersSchema.order));
+
+  // Map DB data to CourseData structure
+  const courseData: CourseData = {
+    id: courseRecord.id,
+    title: courseRecord.title,
+    description: courseRecord.description || "",
+    chapters: courseChapters.map((ch) => ({
+      id: ch.id,
+      title: ch.title,
+      order: ch.order,
+      content: ch.content || "",
+      video_urls: ch.videoUrls || [],
+    })),
+  };
+
+  const targetChapterId = chapterId || courseRecord.activeChapterId || (courseData.chapters[0]?.id);
+
+  const activeChapter = courseData.chapters.find(
+    (ch) => ch.id === targetChapterId
   );
 
   if (!activeChapter) {
     notFound();
   }
 
-  const prevChapter = mockCourseData.chapters.find(
+  const prevChapter = courseData.chapters.find(
     (ch) => ch.order === activeChapter.order - 1
   );
-  const nextChapter = mockCourseData.chapters.find(
+  const nextChapter = courseData.chapters.find(
     (ch) => ch.order === activeChapter.order + 1
   );
 
-  const videoUrl = activeChapter.video_urls[0];
+  const videoUrl = activeChapter.video_urls?.[0];
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative selection:bg-purple-500/30">
@@ -41,7 +78,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
             {/* Chapter Title */}
             <div className="mb-6">
               <span className="text-xs uppercase tracking-widest text-purple-400 font-semibold">
-                Chapter {activeChapter.order} of {mockCourseData.chapters.length}
+                Chapter {activeChapter.order} of {courseData.chapters.length}
               </span>
               <h1 className="text-3xl sm:text-4xl font-bold text-white mt-1 tracking-tight">
                 {activeChapter.title}
@@ -70,7 +107,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
             <div className="flex items-center justify-between mt-14 pt-8 border-t border-white/10">
               {prevChapter ? (
                 <Link
-                  href={`/chapters/${prevChapter.id}`}
+                  href={`/course/${courseId}?chapterId=${prevChapter.id}`}
                   className="group flex items-center gap-2 px-5 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-gray-300 hover:text-white transition-all"
                 >
                   <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
@@ -89,7 +126,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
               {nextChapter ? (
                 <Link
-                  href={`/chapters/${nextChapter.id}`}
+                  href={`/course/${courseId}?chapterId=${nextChapter.id}`}
                   className="group flex items-center gap-2 px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-sm font-medium text-white transition-all shadow-[0_0_20px_rgba(147,51,234,0.25)]"
                 >
                   <div className="text-right">
@@ -115,7 +152,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
         <aside className="hidden lg:block w-[320px] shrink-0 sticky top-0 h-screen p-4 pl-0">
           <div className="h-full">
             <CourseSidebar
-              courseData={mockCourseData}
+              courseData={courseData}
               activeChapter={activeChapter}
             />
           </div>
@@ -124,7 +161,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
       {/* ───────── Mobile Drawer ───────── */}
       <CourseSidebarDrawer
-        courseData={mockCourseData}
+        courseData={courseData}
         activeChapter={activeChapter}
       />
     </div>
