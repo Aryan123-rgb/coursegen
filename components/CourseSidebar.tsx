@@ -49,7 +49,7 @@ export function CourseSidebar({
               key={chapter.id}
               href={`/course/${courseData.id || "mock"}?chapterId=${chapter.id}`}
               className={`
-                flex items-start gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 group
+                cursor-pointer flex items-start gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 group
                 ${
                   isCurrent
                     ? "bg-purple-500/15 border border-purple-500/40 text-white"

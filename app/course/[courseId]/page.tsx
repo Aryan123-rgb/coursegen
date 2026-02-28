@@ -86,7 +86,7 @@ export default async function CoursePage({
             <div className="mb-8">
               <Link
                 href="/dashboard"
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                className="cursor-pointer inline-flex items-center gap-2 text-sm font-medium text-slate-400 hover:text-white transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Back to Dashboard
@@ -116,7 +116,7 @@ export default async function CoursePage({
               {prevChapter ? (
                 <Link
                   href={`/course/${courseId}?chapterId=${prevChapter.id}`}
-                  className="group flex items-center justify-between sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                  className="cursor-pointer group flex items-center justify-between sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-gray-300 hover:text-white transition-all"
                 >
                   <ChevronLeft className="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" />
                   <div className="text-right sm:text-left overflow-hidden min-w-0 w-full sm:w-auto">
