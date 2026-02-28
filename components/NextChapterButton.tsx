@@ -3,6 +3,7 @@
 import { ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import { Button } from "@/components/ui/button";
 import { updateCourseActiveChapter } from "@/app/actions/update-course-progress";
 
 interface NextChapterButtonProps {
@@ -40,18 +41,20 @@ export function NextChapterButton({
   };
 
   return (
-    <button
+    <Button
       onClick={handleNextClick}
       disabled={isPending}
-      className="cursor-pointer group flex items-center gap-2 px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-sm font-medium text-white transition-all shadow-[0_0_20px_rgba(147,51,234,0.25)] disabled:opacity-70 disabled:cursor-not-allowed"
+      className="group h-auto flex flex-1 sm:flex-none justify-between sm:justify-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-[0_0_20px_rgba(147,51,234,0.25)] disabled:opacity-70 disabled:cursor-not-allowed"
     >
-      <div className="text-right">
-        <span className="block text-[10px] uppercase tracking-widest text-purple-200">
+      <div className="text-left sm:text-right overflow-hidden min-w-0 w-full sm:w-auto">
+        <span className="block text-[9px] sm:text-[10px] uppercase tracking-widest text-purple-200 font-normal">
           Next Chapter
         </span>
-        <span className="block truncate max-w-[160px]">{chapterTitle}</span>
+        <span className="block truncate max-w-full sm:max-w-[160px] font-medium text-sm sm:text-base">
+          {chapterTitle}
+        </span>
       </div>
-      <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-    </button>
+      <ChevronRight className="w-4 h-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+    </Button>
   );
 }

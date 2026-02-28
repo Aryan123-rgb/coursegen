@@ -7,9 +7,10 @@ import { db } from "@/lib/db";
 import { courses, chapters as chaptersSchema } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import type { CourseData, Chapter } from "@/lib/mock-course-data";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { NextChapterButton } from "@/components/NextChapterButton";
+import { ChapterContent } from "@/components/ChapterContent";
+import { VideoPlayer } from "@/components/VideoPlayer";
+import { Badge } from "@/components/ui/badge";
 
 interface CoursePageProps {
   params: Promise<{ courseId: string }>;
@@ -73,14 +74,14 @@ export default async function CoursePage({
   const videoUrl = activeChapter.video_urls?.[0];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative selection:bg-purple-500/30">
+    <div className="min-h-screen w-full flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative selection:bg-purple-500/30 overflow-x-hidden">
       {/* Ambient glow */}
       <div className="absolute top-0 left-1/3 w-[600px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.08),transparent_70%)] pointer-events-none" />
 
       <div className="flex flex-1 w-full max-w-[1440px] mx-auto">
         {/* ───────── Main Content ───────── */}
-        <main className="flex-1 lg:w-3/4 overflow-y-auto">
-          <div className="max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-12">
+        <main className="flex-1 min-w-0 lg:w-3/4 overflow-y-auto">
+          <div className="max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-12 w-full">
             {/* Back Navigation */}
             <div className="mb-8">
               <Link
@@ -93,76 +94,42 @@ export default async function CoursePage({
             </div>
 
             {/* Chapter Title */}
-            <div className="mb-6">
-              <span className="text-xs uppercase tracking-widest text-purple-400 font-semibold">
+            <div className="mb-6 w-full">
+              <span className="text-xs uppercase tracking-widest text-purple-400 font-semibold break-words">
                 Chapter {activeChapter.order} of {courseData.chapters.length}
               </span>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white mt-1 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-bold text-white mt-1 tracking-tight break-words">
                 {activeChapter.title}
               </h1>
             </div>
 
             {/* Video Player */}
             {videoUrl && (
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black mb-10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                <iframe
-                  src={`https://www.youtube.com/embed/${videoUrl}`}
-                  title={activeChapter.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="absolute inset-0 w-full h-full"
-                />
-              </div>
+              <VideoPlayer videoUrl={videoUrl} title={activeChapter.title} />
             )}
 
             {/* Markdown Content */}
-            <article className="prose prose-invert prose-lg max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3 prose-p:text-gray-300 prose-p:leading-relaxed prose-strong:text-white prose-code:text-purple-300 prose-code:bg-white/5 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-slate-900 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-xl prose-blockquote:border-purple-500/50 prose-blockquote:text-gray-400 prose-a:text-indigo-400 prose-li:text-gray-300 prose-th:text-white prose-td:text-gray-300">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  img: (props) => (
-                    <span className="block my-8 rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/50">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        className="w-full h-auto object-cover"
-                        {...props}
-                        alt={props.alt || ""}
-                      />
-                    </span>
-                  ),
-                  a: (props) => (
-                    <a
-                      className="text-purple-400 hover:text-purple-300 underline underline-offset-4"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      {...props}
-                    />
-                  ),
-                }}
-              >
-                {activeChapter.content}
-              </ReactMarkdown>
-            </article>
+            <ChapterContent content={activeChapter.content} />
 
             {/* ───────── Navigation Buttons ───────── */}
-            <div className="flex items-center justify-between mt-14 pt-8 border-t border-white/10">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mt-14 pt-8 border-t border-white/10">
               {prevChapter ? (
                 <Link
                   href={`/course/${courseId}?chapterId=${prevChapter.id}`}
-                  className="group flex items-center gap-2 px-5 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-gray-300 hover:text-white transition-all"
+                  className="group flex items-center justify-between sm:justify-start gap-2 px-4 sm:px-5 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-sm font-medium text-gray-300 hover:text-white transition-all"
                 >
-                  <ChevronLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" />
-                  <div className="text-left">
-                    <span className="block text-[10px] uppercase tracking-widest text-gray-500">
+                  <ChevronLeft className="w-4 h-4 shrink-0 group-hover:-translate-x-0.5 transition-transform" />
+                  <div className="text-right sm:text-left overflow-hidden min-w-0 w-full sm:w-auto">
+                    <span className="block text-[9px] sm:text-[10px] uppercase tracking-widest text-gray-500">
                       Previous
                     </span>
-                    <span className="block truncate max-w-[160px]">
+                    <span className="block truncate max-w-full sm:max-w-[160px]">
                       {prevChapter.title}
                     </span>
                   </div>
                 </Link>
               ) : (
-                <div />
+                <div className="hidden sm:block" />
               )}
 
               {nextChapter ? (
@@ -173,16 +140,19 @@ export default async function CoursePage({
                   chapterTitle={nextChapter.title}
                 />
               ) : (
-                <div className="px-5 py-3 rounded-xl bg-emerald-600/20 border border-emerald-500/30 text-sm font-medium text-emerald-300">
+                <Badge
+                  variant="outline"
+                  className="px-5 py-2.5 rounded-xl bg-emerald-600/20 border-emerald-500/30 text-emerald-300 text-sm font-medium w-full sm:w-auto text-center justify-center"
+                >
                   🎉 Course Complete!
-                </div>
+                </Badge>
               )}
             </div>
           </div>
         </main>
 
         {/* ───────── Desktop Sidebar ───────── */}
-        <aside className="hidden lg:block w-[320px] shrink-0 sticky top-0 h-screen p-4 pl-0">
+        <aside className="hidden md:block w-[280px] lg:w-[320px] shrink-0 sticky top-0 h-screen p-4 pl-0">
           <div className="h-full">
             <CourseSidebar
               courseData={courseData}

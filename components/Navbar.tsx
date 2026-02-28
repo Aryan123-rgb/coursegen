@@ -72,9 +72,16 @@ export function Navbar() {
                     <p className="text-xs text-gray-500 truncate mt-0.5">{user.email}</p>
                   </div>
                   <div className="h-px bg-white/[0.06] mx-2" />
+                  <Link 
+                    href="/dashboard"
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition-colors mt-1 sm:hidden cursor-pointer"
+                  >
+                    Dashboard
+                  </Link>
                   <button 
                     onClick={handleSignOut}
-                    className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-lg transition-colors mt-1"
+                    className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-lg transition-colors mt-1 cursor-pointer"
                   >
                     Sign out
                   </button>

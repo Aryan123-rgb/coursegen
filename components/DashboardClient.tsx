@@ -3,6 +3,7 @@
 import { Plus, BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 // ───────────────────────────────────────────────────
 // Mock data shaped after the Drizzle `courses` schema
@@ -112,17 +113,17 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
       {/* ── Main Content ── */}
       <main className="flex-1 flex flex-col px-6 sm:px-12 pt-28 pb-16 z-10 max-w-7xl mx-auto w-full">
         {/* Header Row */}
-        <div className="flex items-center justify-between mb-12">
-          <h1 className="text-2xl font-bold tracking-tight text-white">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
             My Dashboard
           </h1>
-          <button
+          <Button
             onClick={() => router.push("/create-course")}
-            className="cursor-pointer inline-flex items-center gap-2 rounded-full text-sm font-medium transition-all duration-300 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.25)] hover:shadow-[0_0_32px_rgba(59,130,246,0.40)]"
+            className="w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.25)] hover:shadow-[0_0_32px_rgba(59,130,246,0.40)] transition-all duration-300 gap-2"
           >
-            <Plus className="w-4 h-4" />
-            Create New Course
-          </button>
+            <Plus className="w-4 h-4 shrink-0" />
+            <span className="font-medium text-sm">Create New Course</span>
+          </Button>
         </div>
 
         {/* ── Empty State ── */}
@@ -138,13 +139,13 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
               Create your first AI-powered course and start learning at your own
               pace.
             </p>
-            <button
+            <Button
               onClick={() => router.push("/create-course")}
-              className="cursor-pointer inline-flex items-center gap-2 rounded-full text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 transition-colors shadow-[0_0_24px_rgba(59,130,246,0.25)]"
+              className="w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 shadow-[0_0_24px_rgba(59,130,246,0.25)] transition-colors gap-2"
             >
-              <Sparkles className="w-4 h-4" />
-              Generate Your First Course
-            </button>
+              <Sparkles className="w-4 h-4 shrink-0" />
+              <span className="font-medium text-sm">Generate Your First Course</span>
+            </Button>
           </div>
         )}
 
