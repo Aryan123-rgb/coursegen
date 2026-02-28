@@ -1,8 +1,9 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Plus, BookOpen, ArrowRight, Sparkles } from "lucide-react";
-import { MatrixRain } from "./MatrixRain";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 // ───────────────────────────────────────────────────
 // Mock data shaped after the Drizzle `courses` schema
@@ -103,8 +104,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative overflow-hidden selection:bg-blue-500/30">
-      {/* Static matrix texture */}
-      <MatrixRain />
+      {/* Static matrix texture (removed, now in layout) */}
 
       {/* Ambient radial glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.10),transparent_70%)] pointer-events-none z-0" />
@@ -113,17 +113,17 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
       {/* ── Main Content ── */}
       <main className="flex-1 flex flex-col px-6 sm:px-12 pt-28 pb-16 z-10 max-w-7xl mx-auto w-full">
         {/* Header Row */}
-        <div className="flex items-center justify-between mb-12">
-          <h1 className="text-2xl font-bold tracking-tight text-white">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 sm:mb-12 gap-4">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
             My Dashboard
           </h1>
-          <button
+          <Button
             onClick={() => router.push("/create-course")}
-            className="cursor-pointer inline-flex items-center gap-2 rounded-full text-sm font-medium transition-all duration-300 bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.25)] hover:shadow-[0_0_32px_rgba(59,130,246,0.40)]"
+            className="w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.25)] hover:shadow-[0_0_32px_rgba(59,130,246,0.40)] transition-all duration-300 gap-2"
           >
-            <Plus className="w-4 h-4" />
-            Create New Course
-          </button>
+            <Plus className="w-4 h-4 shrink-0" />
+            <span className="font-medium text-sm">Create New Course</span>
+          </Button>
         </div>
 
         {/* ── Empty State ── */}
@@ -139,13 +139,13 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
               Create your first AI-powered course and start learning at your own
               pace.
             </p>
-            <button
+            <Button
               onClick={() => router.push("/create-course")}
-              className="cursor-pointer inline-flex items-center gap-2 rounded-full text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 transition-colors shadow-[0_0_24px_rgba(59,130,246,0.25)]"
+              className="w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 shadow-[0_0_24px_rgba(59,130,246,0.25)] transition-colors gap-2"
             >
-              <Sparkles className="w-4 h-4" />
-              Generate Your First Course
-            </button>
+              <Sparkles className="w-4 h-4 shrink-0" />
+              <span className="font-medium text-sm">Generate Your First Course</span>
+            </Button>
           </div>
         )}
 
@@ -180,7 +180,11 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                         <div
                           className={`h-36 bg-gradient-to-br ${gradients[idx % gradients.length]} flex items-center justify-center relative overflow-hidden`}
                         >
-                          <BookOpen className="w-10 h-10 text-white/20" />
+                          {course.imageUrl ? (
+                            <Image src={course.imageUrl} alt={course.title || "Course"} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                          ) : (
+                            <BookOpen className="w-10 h-10 text-white/20" />
+                          )}
                           {/* Shine on hover */}
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                         </div>
@@ -233,7 +237,11 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                       <div
                         className={`h-36 bg-gradient-to-br ${gradients[(inProgress.length + idx) % gradients.length]} flex items-center justify-center relative overflow-hidden`}
                       >
-                        <BookOpen className="w-10 h-10 text-white/20" />
+                        {course.imageUrl ? (
+                          <Image src={course.imageUrl} alt={course.title || "Course"} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                        ) : (
+                          <BookOpen className="w-10 h-10 text-white/20" />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                       </div>
 
