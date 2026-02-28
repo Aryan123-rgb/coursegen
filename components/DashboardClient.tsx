@@ -1,8 +1,8 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Plus, BookOpen, ArrowRight, Sparkles } from "lucide-react";
-import { MatrixRain } from "./MatrixRain";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // ───────────────────────────────────────────────────
 // Mock data shaped after the Drizzle `courses` schema
@@ -103,8 +103,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative overflow-hidden selection:bg-blue-500/30">
-      {/* Static matrix texture */}
-      <MatrixRain />
+      {/* Static matrix texture (removed, now in layout) */}
 
       {/* Ambient radial glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.10),transparent_70%)] pointer-events-none z-0" />
@@ -180,7 +179,11 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                         <div
                           className={`h-36 bg-gradient-to-br ${gradients[idx % gradients.length]} flex items-center justify-center relative overflow-hidden`}
                         >
-                          <BookOpen className="w-10 h-10 text-white/20" />
+                          {course.imageUrl ? (
+                            <Image src={course.imageUrl} alt={course.title || "Course"} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                          ) : (
+                            <BookOpen className="w-10 h-10 text-white/20" />
+                          )}
                           {/* Shine on hover */}
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                         </div>
@@ -233,7 +236,11 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                       <div
                         className={`h-36 bg-gradient-to-br ${gradients[(inProgress.length + idx) % gradients.length]} flex items-center justify-center relative overflow-hidden`}
                       >
-                        <BookOpen className="w-10 h-10 text-white/20" />
+                        {course.imageUrl ? (
+                          <Image src={course.imageUrl} alt={course.title || "Course"} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                        ) : (
+                          <BookOpen className="w-10 h-10 text-white/20" />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700" />
                       </div>
 
