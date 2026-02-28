@@ -82,7 +82,7 @@ export const verification = pgTable(
 // ──────────────────────────────────────────────────────
 
 export const courses = pgTable("course", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
@@ -91,6 +91,9 @@ export const courses = pgTable("course", {
   imageUrl: text("image_url"),
   activeChapterId: text("active_chapter_id"),
   activeChapterOrder: integer("active_chapter_order"),
+  status: text("status", { enum: ["in-progress", "completed", "failed"] })
+    .default("completed")
+    .notNull(),
 });
 
 export const chapters = pgTable("chapter", {

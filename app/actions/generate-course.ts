@@ -7,6 +7,10 @@ import { z } from "zod";
 import arcjet, { tokenBucket, shield } from "@arcjet/next";
 import { env } from "@/env";
 
+import { db } from "@/lib/db";
+import { courses } from "@/lib/db/schema";
+import { revalidatePath } from "next/cache";
+
 // ─── Arcjet Protection ──────────────────────────────────────────
 
 const aj = arcjet({
@@ -87,16 +91,31 @@ export async function generateCourseAction(
     };
   }
 
-  // 4. Trigger the Inngest pipeline
   try {
+    // 4. Optimistically create the course in the database
+    const [newCourse] = await db
+      .insert(courses)
+      .values({
+        userId: session.user.id,
+        title: parsed.data.title,
+        description: parsed.data.description,
+        status: "in-progress",
+      })
+      .returning({ id: courses.id });
+
+    // 5. Trigger the Inngest pipeline
     await inngest.send({
       name: "app/course.generate",
       data: {
+        courseId: newCourse.id,
         title: parsed.data.title,
         description: parsed.data.description,
         userId: session.user.id,
       },
     });
+
+    // 6. Revalidate the dashboard path
+    revalidatePath("/dashboard");
 
     return { success: true };
   } catch (error) {

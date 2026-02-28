@@ -16,6 +16,7 @@ interface Course {
   imageUrl: string | null;
   activeChapterId: string | null;
   activeChapterOrder: number | null;
+  status: "in-progress" | "completed" | "failed";
 }
 
 const TOTAL_CHAPTERS = 8;
@@ -30,6 +31,7 @@ const mockCourses: Course[] = [
     imageUrl: null,
     activeChapterId: "ch_1_3",
     activeChapterOrder: 3,
+    status: "completed",
   },
   {
     id: "crs_2",
@@ -40,6 +42,7 @@ const mockCourses: Course[] = [
     imageUrl: null,
     activeChapterId: "ch_2_6",
     activeChapterOrder: 6,
+    status: "completed",
   },
   {
     id: "crs_3",
@@ -50,6 +53,7 @@ const mockCourses: Course[] = [
     imageUrl: null,
     activeChapterId: "ch_3_1",
     activeChapterOrder: 1,
+    status: "completed",
   },
   {
     id: "crs_4",
@@ -60,6 +64,7 @@ const mockCourses: Course[] = [
     imageUrl: null,
     activeChapterId: "ch_4_0",
     activeChapterOrder: 0,
+    status: "completed",
   },
   {
     id: "crs_5",
@@ -70,6 +75,7 @@ const mockCourses: Course[] = [
     imageUrl: null,
     activeChapterId: "ch_5_0",
     activeChapterOrder: 0,
+    status: "completed",
   },
 ];
 
@@ -84,12 +90,28 @@ interface DashboardClientProps {
 export function DashboardClient({ user, courses }: DashboardClientProps) {
   const router = useRouter();
 
+  // Polling logic: if any course is "in-progress", refresh the page every 5 seconds
+  
+  const hasInProgressCourses = courses.some((c) => c.status === "in-progress");
+
+  useEffect(() => {
+    if (!hasInProgressCourses) return;
+    
+    const interval = setInterval(() => {
+      router.refresh();
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [hasInProgressCourses, router]);
+
   const inProgress = courses.filter(
-    (c) => c.activeChapterOrder && c.activeChapterOrder > 0
+    (c) => c.status === "completed" && c.activeChapterOrder && c.activeChapterOrder > 0
   );
   const library = courses.filter(
-    (c) => !c.activeChapterOrder || c.activeChapterOrder === 0
+    (c) => c.status === "completed" && (!c.activeChapterOrder || c.activeChapterOrder === 0)
   );
+  const generating = courses.filter((c) => c.status === "in-progress");
+  const failed = courses.filter((c) => c.status === "failed");
 
   const isEmpty = courses.length === 0;
 
@@ -151,6 +173,46 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
 
         {!isEmpty && (
           <div className="space-y-12">
+            
+            {/* ── Section: Generating (Optimistic) ── */}
+            {generating.length > 0 && (
+              <section>
+                <h2 className="text-lg font-semibold text-white mb-5 flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+                  Generating...
+                </h2>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {generating.map((course, idx) => (
+                    <div
+                      key={course.id}
+                      className="group text-left rounded-2xl border border-slate-800 bg-white/[0.03] backdrop-blur-sm overflow-hidden opacity-70"
+                    >
+                      <div
+                        className={`h-36 bg-gradient-to-br ${gradients[idx % gradients.length]} flex items-center justify-center relative overflow-hidden`}
+                      >
+                        <BookOpen className="w-10 h-10 text-white/20 animate-pulse" />
+                      </div>
+
+                      <div className="p-5">
+                        <h3 className="text-base font-semibold text-white mb-3">
+                          {course.title}
+                        </h3>
+
+                        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-400">
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          AI is crafting your course
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            
             {/* ── Section A: In Progress ── */}
             {inProgress.length > 0 && (
               <section>
