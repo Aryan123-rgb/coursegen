@@ -87,7 +87,7 @@ export const courses = pgTable("course", {
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
   title: text("title").notNull(),
-  description: text("description"),
+  description: text("description").notNull(),
   imageUrl: text("image_url"),
   activeChapterId: text("active_chapter_id"),
   activeChapterOrder: integer("active_chapter_order"),
