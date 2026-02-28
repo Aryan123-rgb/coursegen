@@ -4,7 +4,8 @@ import { Plus, BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 // ───────────────────────────────────────────────────
 // Mock data shaped after the Drizzle `courses` schema
@@ -36,6 +37,24 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
   // Polling logic: if any course is "in-progress", refresh the page every 5 seconds
 
   const hasInProgressCourses = courses.some((c) => c.status === "in-progress");
+  const prevCoursesRef = useRef(courses);
+
+  useEffect(() => {
+    const prevCourses = prevCoursesRef.current;
+    
+    // Check if any course finished generating
+    const newlyCompleted = courses.filter(
+      (c) => c.status === "completed" && prevCourses.find(pc => pc.id === c.id)?.status === "in-progress"
+    );
+
+    if (newlyCompleted.length > 0) {
+      newlyCompleted.forEach(c => {
+        toast.success(`Course creation completed: ${c.title || 'Your course'}`);
+      });
+    }
+
+    prevCoursesRef.current = courses;
+  }, [courses]);
 
   useEffect(() => {
     if (!hasInProgressCourses) return;

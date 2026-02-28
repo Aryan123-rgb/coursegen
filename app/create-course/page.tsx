@@ -12,6 +12,7 @@ import {
 import { ChapterReview } from "@/components/create-course/ChapterReview";
 import { generateCourseAction } from "@/app/actions/generate-course";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 // Mock chapter generator — returns 8 chapter titles based on the course title
 function generateMockChapters(title: string): string[] {
@@ -52,15 +53,19 @@ export default function CreateCoursePage() {
       const res = await generateCourseAction(data);
       if (!res.success) {
         setError(res.error || "Something went wrong.");
+        toast.error(res.error || "Failed to generate course.");
         setIsGenerating(false);
       } else {
-        toast.success("Course generation queued!");
-        startTransition(() => {
+        toast.success(
+          "Course generation queued. Your course will be available soon!",
+        );
+        setTimeout(() => {
           router.push("/dashboard");
-        });
+        }, 3500);
       }
     } catch (err) {
       setError("Failed to generate course. Please try again.");
+      toast.error("Failed to generate course. Please try again.");
       setIsGenerating(false);
     }
   };
