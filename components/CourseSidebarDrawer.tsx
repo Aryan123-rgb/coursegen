@@ -4,11 +4,11 @@ import { Menu } from "lucide-react";
 import { CourseSidebar } from "@/components/CourseSidebar";
 import type { CourseData, Chapter } from "@/lib/mock-course-data";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerTrigger,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 
 interface CourseSidebarDrawerProps {
@@ -21,23 +21,23 @@ export function CourseSidebarDrawer({
   activeChapter,
 }: CourseSidebarDrawerProps) {
   return (
-    <Drawer direction="right">
-      <DrawerTrigger asChild>
+    <Sheet>
+      <SheetTrigger asChild>
         <button
-          className="fixed bottom-6 right-6 z-40 lg:hidden flex items-center justify-center w-14 h-14 rounded-full bg-purple-600 text-white shadow-[0_0_24px_rgba(147,51,234,0.4)] hover:bg-purple-500 transition-colors"
+          className="fixed top-6 right-6 z-40 md:hidden flex items-center justify-center w-12 h-12 rounded-full bg-purple-600 text-white shadow-[0_0_24px_rgba(147,51,234,0.4)] hover:bg-purple-500 transition-colors"
           aria-label="Open course menu"
         >
-          <Menu className="w-6 h-6" />
+          <Menu className="w-5 h-5" />
         </button>
-      </DrawerTrigger>
-      <DrawerContent className="h-full bg-slate-900 border-l border-white/10">
+      </SheetTrigger>
+      <SheetContent side="right" className="p-0 bg-[#0a0a0a] border-l border-white/10 w-[300px] sm:w-[350px]">
         <VisuallyHidden.Root>
-          <DrawerTitle>Course Navigation</DrawerTitle>
+          <SheetTitle>Course Navigation</SheetTitle>
         </VisuallyHidden.Root>
-        <div className="h-full overflow-y-auto">
+        <div className="h-full overflow-y-auto p-4 pt-12">
           <CourseSidebar courseData={courseData} activeChapter={activeChapter} />
         </div>
-      </DrawerContent>
-    </Drawer>
+      </SheetContent>
+    </Sheet>
   );
 }

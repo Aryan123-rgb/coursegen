@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Navbar } from "@/components/Navbar";
-import { MatrixRain } from "@/components/MatrixRain";
 import { BookOpen, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import {
@@ -68,8 +67,6 @@ export default function CreateCoursePage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-gray-200 font-sans relative overflow-hidden selection:bg-blue-500/30">
-      <MatrixRain />
-
       {/* Ambient glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[450px] bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.10),transparent_70%)] pointer-events-none z-0" />
       <div className="absolute bottom-1/3 right-0 w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_bottom_right,rgba(37,99,235,0.06),transparent_70%)] pointer-events-none z-0" />

@@ -46,7 +46,7 @@ export function Navbar() {
           ) : !user ? (
             <button 
               onClick={handleSignIn}
-              className="group relative inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium h-10 px-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] transition-all duration-300 overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-2 rounded-full text-sm font-medium h-10 px-6 bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:scale-[1.03] transition-all duration-300 overflow-hidden cursor-pointer"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <span className="relative flex items-center gap-2">
@@ -56,7 +56,7 @@ export function Navbar() {
             </button>
           ) : (
             <div className="relative flex items-center gap-3">
-              <Link href="/dashboard" className="text-sm text-gray-400 hover:text-white transition-colors hidden sm:block">Dashboard</Link>
+              <Link href="/dashboard" className="text-sm font-medium px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-all cursor-pointer hidden sm:block">Dashboard</Link>
               <button 
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white hover:opacity-90 transition font-medium text-sm"
@@ -72,9 +72,16 @@ export function Navbar() {
                     <p className="text-xs text-gray-500 truncate mt-0.5">{user.email}</p>
                   </div>
                   <div className="h-px bg-white/[0.06] mx-2" />
+                  <Link 
+                    href="/dashboard"
+                    onClick={() => setIsDropdownOpen(false)}
+                    className="block w-full text-left px-3 py-2 text-sm text-gray-300 hover:bg-white/5 hover:text-white rounded-lg transition-colors mt-1 sm:hidden cursor-pointer"
+                  >
+                    Dashboard
+                  </Link>
                   <button 
                     onClick={handleSignOut}
-                    className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-lg transition-colors mt-1"
+                    className="w-full text-left px-3 py-2 text-sm text-red-400 hover:bg-white/5 rounded-lg transition-colors mt-1 cursor-pointer"
                   >
                     Sign out
                   </button>
