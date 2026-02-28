@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { CourseSidebar } from "@/components/CourseSidebar";
 import { CourseSidebarDrawer } from "@/components/CourseSidebarDrawer";
 import { db } from "@/lib/db";

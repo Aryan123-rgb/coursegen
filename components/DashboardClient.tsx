@@ -4,6 +4,8 @@ import { Plus, BookOpen, ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 // ───────────────────────────────────────────────────
 // Mock data shaped after the Drizzle `courses` schema
@@ -21,64 +23,6 @@ interface Course {
 
 const TOTAL_CHAPTERS = 8;
 
-const mockCourses: Course[] = [
-  {
-    id: "crs_1",
-    userId: "usr_1",
-    title: "Machine Learning Fundamentals",
-    description:
-      "Explore supervised and unsupervised learning, neural networks, and real-world ML pipelines from scratch.",
-    imageUrl: null,
-    activeChapterId: "ch_1_3",
-    activeChapterOrder: 3,
-    status: "completed",
-  },
-  {
-    id: "crs_2",
-    userId: "usr_1",
-    title: "Full-Stack Web Development",
-    description:
-      "Build modern web applications with React, Next.js, databases, and deployment strategies.",
-    imageUrl: null,
-    activeChapterId: "ch_2_6",
-    activeChapterOrder: 6,
-    status: "completed",
-  },
-  {
-    id: "crs_3",
-    userId: "usr_1",
-    title: "Cybersecurity Essentials",
-    description:
-      "Learn threat modeling, penetration testing, cryptography, and secure coding practices.",
-    imageUrl: null,
-    activeChapterId: "ch_3_1",
-    activeChapterOrder: 1,
-    status: "completed",
-  },
-  {
-    id: "crs_4",
-    userId: "usr_1",
-    title: "Cloud Architecture with AWS",
-    description:
-      "Design scalable cloud solutions using EC2, Lambda, S3, and infrastructure-as-code tools.",
-    imageUrl: null,
-    activeChapterId: "ch_4_0",
-    activeChapterOrder: 0,
-    status: "completed",
-  },
-  {
-    id: "crs_5",
-    userId: "usr_1",
-    title: "Data Structures & Algorithms",
-    description:
-      "Master arrays, trees, graphs, dynamic programming, and competitive-programming patterns.",
-    imageUrl: null,
-    activeChapterId: "ch_5_0",
-    activeChapterOrder: 0,
-    status: "completed",
-  },
-];
-
 // ───────────────────────────────────────────────────
 // Component
 // ───────────────────────────────────────────────────
@@ -93,6 +37,24 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
   // Polling logic: if any course is "in-progress", refresh the page every 5 seconds
   
   const hasInProgressCourses = courses.some((c) => c.status === "in-progress");
+  const prevCoursesRef = useRef(courses);
+
+  useEffect(() => {
+    const prevCourses = prevCoursesRef.current;
+    
+    // Check if any course finished generating
+    const newlyCompleted = courses.filter(
+      (c) => c.status === "completed" && prevCourses.find(pc => pc.id === c.id)?.status === "in-progress"
+    );
+
+    if (newlyCompleted.length > 0) {
+      newlyCompleted.forEach(c => {
+        toast.success(`Course creation completed: ${c.title || 'Your course'}`);
+      });
+    }
+
+    prevCoursesRef.current = courses;
+  }, [courses]);
 
   useEffect(() => {
     if (!hasInProgressCourses) return;

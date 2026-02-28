@@ -7,11 +7,13 @@ import type { CourseData, Chapter } from "@/lib/mock-course-data";
 interface CourseSidebarProps {
   courseData: CourseData;
   activeChapter: Chapter;
+  onChapterClick?: () => void;
 }
 
 export function CourseSidebar({
   courseData,
   activeChapter,
+  onChapterClick,
 }: CourseSidebarProps) {
   const totalChapters = courseData.chapters.length;
   const progressPercent = Math.round(
@@ -48,6 +50,7 @@ export function CourseSidebar({
             <Link
               key={chapter.id}
               href={`/course/${courseData.id || "mock"}?chapterId=${chapter.id}`}
+              onClick={onChapterClick}
               className={`
                 flex items-start gap-3 px-3 py-3 rounded-xl text-sm transition-all duration-200 group
                 ${

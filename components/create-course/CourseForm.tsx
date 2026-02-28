@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { Sparkles } from "lucide-react";
+import { toast } from "sonner";
 
 const courseSchema = z.object({
   title: z
@@ -41,6 +42,7 @@ export function CourseForm({ initialData, onSubmit, isLoading = false }: CourseF
       result.error.issues.forEach((issue) => {
         const field = issue.path[0] as "title" | "description";
         fieldErrors[field] = issue.message;
+        toast.error(issue.message);
       });
       setErrors(fieldErrors);
       return;
