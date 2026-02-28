@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { BookOpen, ArrowLeft } from "lucide-react";
@@ -12,21 +12,6 @@ import {
 import { ChapterReview } from "@/components/create-course/ChapterReview";
 import { generateCourseAction } from "@/app/actions/generate-course";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
-// Mock chapter generator — returns 8 chapter titles based on the course title
-function generateMockChapters(title: string): string[] {
-  return [
-    `Introduction to ${title}`,
-    `Core Concepts & Terminology`,
-    `Setting Up Your Environment`,
-    `Fundamentals & First Principles`,
-    `Intermediate Techniques`,
-    `Advanced Patterns & Best Practices`,
-    `Real-World Projects & Case Studies`,
-    `Summary & Next Steps`,
-  ];
-}
 
 export default function CreateCoursePage() {
   const [step, setStep] = useState<"form" | "chapters">("form");
@@ -38,7 +23,6 @@ export default function CreateCoursePage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     router.prefetch("/dashboard");
@@ -63,7 +47,7 @@ export default function CreateCoursePage() {
           router.push("/dashboard");
         }, 3500);
       }
-    } catch (err) {
+    } catch {
       setError("Failed to generate course. Please try again.");
       toast.error("Failed to generate course. Please try again.");
       setIsGenerating(false);

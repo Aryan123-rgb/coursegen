@@ -44,7 +44,6 @@ export function CourseSidebar({
         {courseData.chapters.map((chapter) => {
           const isCurrent = chapter.id === activeChapter.id;
           const isCompleted = chapter.order < activeChapter.order;
-          const isLocked = chapter.order > activeChapter.order;
 
           return (
             <Link

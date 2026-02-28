@@ -6,7 +6,7 @@ import { CourseSidebarDrawer } from "@/components/CourseSidebarDrawer";
 import { db } from "@/lib/db";
 import { courses, chapters as chaptersSchema } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
-import type { CourseData, Chapter } from "@/lib/mock-course-data";
+import type { CourseData } from "@/lib/mock-course-data";
 import { NextChapterButton } from "@/components/NextChapterButton";
 import { ChapterContent } from "@/components/ChapterContent";
 import { VideoPlayer } from "@/components/VideoPlayer";

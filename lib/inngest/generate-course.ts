@@ -69,7 +69,7 @@ export const generateCoursePipeline = inngest.createFunction(
   { id: "generate-course-pipeline" },
   { event: "app/course.generate" },
   async ({ event, step }) => {
-    const { courseId, title, description, userId } = event.data as {
+    const { courseId, title, description } = event.data as {
       courseId: string;
       title: string;
       description: string;

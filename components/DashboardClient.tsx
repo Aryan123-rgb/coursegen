@@ -31,7 +31,7 @@ interface DashboardClientProps {
   courses: Partial<Course>[];
 }
 
-export function DashboardClient({ user, courses }: DashboardClientProps) {
+export function DashboardClient({ courses }: DashboardClientProps) {
   const router = useRouter();
 
   // Polling logic: if any course is "in-progress", refresh the page every 5 seconds
@@ -41,15 +41,17 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
 
   useEffect(() => {
     const prevCourses = prevCoursesRef.current;
-    
+
     // Check if any course finished generating
     const newlyCompleted = courses.filter(
-      (c) => c.status === "completed" && prevCourses.find(pc => pc.id === c.id)?.status === "in-progress"
+      (c) =>
+        c.status === "completed" &&
+        prevCourses.find((pc) => pc.id === c.id)?.status === "in-progress",
     );
 
     if (newlyCompleted.length > 0) {
-      newlyCompleted.forEach(c => {
-        toast.success(`Course creation completed: ${c.title || 'Your course'}`);
+      newlyCompleted.forEach((c) => {
+        toast.success(`Course creation completed: ${c.title || "Your course"}`);
       });
     }
 
@@ -78,7 +80,6 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
       (!c.activeChapterOrder || c.activeChapterOrder === 0),
   );
   const generating = courses.filter((c) => c.status === "in-progress");
-  const failed = courses.filter((c) => c.status === "failed");
 
   const isEmpty = courses.length === 0;
 
