@@ -12,6 +12,7 @@ export const env = createEnv({
     GOOGLE_API_KEY: z.string().min(1),
     PEXELS_API_KEY: z.string().min(1),
     ARCJET_KEY: z.string().min(1),
+    GUEST_USER_ID: z.string().min(1).optional(),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().url(),
@@ -26,6 +27,7 @@ export const env = createEnv({
     GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
     PEXELS_API_KEY: process.env.PEXELS_API_KEY,
     ARCJET_KEY: process.env.ARCJET_KEY,
+    GUEST_USER_ID: process.env.GUEST_USER_ID,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
 });

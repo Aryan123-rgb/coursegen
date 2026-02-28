@@ -5,7 +5,8 @@ import { Navbar } from "@/components/Navbar";
 import { DashboardClient } from "@/components/DashboardClient";
 import { db } from "@/lib/db";
 import { courses } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { inArray } from "drizzle-orm";
+import { env } from "@/env";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -18,10 +19,24 @@ export default async function DashboardPage() {
 
   const { user } = session;
 
-  const userCourses = await db
+  const allowedUserIds = [user.id];
+  if (env.GUEST_USER_ID && env.GUEST_USER_ID !== user.id) {
+    allowedUserIds.push(env.GUEST_USER_ID);
+  }
+
+  const fetchedCourses = await db
     .select()
     .from(courses)
-    .where(eq(courses.userId, user.id));
+    .where(inArray(courses.userId, allowedUserIds));
+
+  // Deduplicate courses by id
+  const uniqueCoursesMap = new Map();
+  for (const course of fetchedCourses) {
+    if (!uniqueCoursesMap.has(course.id)) {
+      uniqueCoursesMap.set(course.id, course);
+    }
+  }
+  const userCourses = Array.from(uniqueCoursesMap.values());
 
   return (
     <>
