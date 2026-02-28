@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition, useEffect } from "react";
+import { toast } from "sonner";
 import { Navbar } from "@/components/Navbar";
 import { BookOpen, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -37,6 +38,11 @@ export default function CreateCoursePage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    router.prefetch("/dashboard");
+  }, [router]);
 
   const handleFormSubmit = async (data: CourseFormData) => {
     setFormData(data);

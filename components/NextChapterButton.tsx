@@ -44,7 +44,7 @@ export function NextChapterButton({
     <Button
       onClick={handleNextClick}
       disabled={isPending}
-      className="group h-auto flex flex-1 sm:flex-none justify-between sm:justify-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-[0_0_20px_rgba(147,51,234,0.25)] disabled:opacity-70 disabled:cursor-not-allowed"
+      className="cursor-pointer group h-auto flex flex-1 sm:flex-none justify-between sm:justify-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition-all shadow-[0_0_20px_rgba(147,51,234,0.25)] disabled:opacity-70 disabled:cursor-not-allowed"
     >
       <div className="text-left sm:text-right overflow-hidden min-w-0 w-full sm:w-auto">
         <span className="block text-[9px] sm:text-[10px] uppercase tracking-widest text-purple-200 font-normal">

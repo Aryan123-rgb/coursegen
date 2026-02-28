@@ -35,7 +35,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
   const router = useRouter();
 
   // Polling logic: if any course is "in-progress", refresh the page every 5 seconds
-  
+
   const hasInProgressCourses = courses.some((c) => c.status === "in-progress");
   const prevCoursesRef = useRef(courses);
 
@@ -58,19 +58,24 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
 
   useEffect(() => {
     if (!hasInProgressCourses) return;
-    
+
     const interval = setInterval(() => {
       router.refresh();
     }, 5000);
-    
+
     return () => clearInterval(interval);
   }, [hasInProgressCourses, router]);
 
   const inProgress = courses.filter(
-    (c) => c.status === "completed" && c.activeChapterOrder && c.activeChapterOrder > 0
+    (c) =>
+      c.status === "completed" &&
+      c.activeChapterOrder &&
+      c.activeChapterOrder > 0,
   );
   const library = courses.filter(
-    (c) => c.status === "completed" && (!c.activeChapterOrder || c.activeChapterOrder === 0)
+    (c) =>
+      c.status === "completed" &&
+      (!c.activeChapterOrder || c.activeChapterOrder === 0),
   );
   const generating = courses.filter((c) => c.status === "in-progress");
   const failed = courses.filter((c) => c.status === "failed");
@@ -103,7 +108,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
           </h1>
           <Button
             onClick={() => router.push("/create-course")}
-            className="w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.25)] hover:shadow-[0_0_32px_rgba(59,130,246,0.40)] transition-all duration-300 gap-2"
+            className="cursor-pointer w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 shadow-[0_0_24px_rgba(59,130,246,0.25)] hover:shadow-[0_0_32px_rgba(59,130,246,0.40)] transition-all duration-300 gap-2"
           >
             <Plus className="w-4 h-4 shrink-0" />
             <span className="font-medium text-sm">Create New Course</span>
@@ -125,17 +130,18 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
             </p>
             <Button
               onClick={() => router.push("/create-course")}
-              className="w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 shadow-[0_0_24px_rgba(59,130,246,0.25)] transition-colors gap-2"
+              className="cursor-pointer w-full sm:w-auto h-auto rounded-full bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 shadow-[0_0_24px_rgba(59,130,246,0.25)] transition-colors gap-2"
             >
               <Sparkles className="w-4 h-4 shrink-0" />
-              <span className="font-medium text-sm">Generate Your First Course</span>
+              <span className="font-medium text-sm">
+                Generate Your First Course
+              </span>
             </Button>
           </div>
         )}
 
         {!isEmpty && (
           <div className="space-y-12">
-            
             {/* ── Section: Generating (Optimistic) ── */}
             {generating.length > 0 && (
               <section>
@@ -162,9 +168,25 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                         </h3>
 
                         <span className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-400">
-                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          <svg
+                            className="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-500"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
                           </svg>
                           AI is crafting your course
                         </span>
@@ -174,7 +196,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                 </div>
               </section>
             )}
-            
+
             {/* ── Section A: In Progress ── */}
             {inProgress.length > 0 && (
               <section>
@@ -195,7 +217,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                           router.push(
                             course.activeChapterId
                               ? `/course/${course.id}?chapterId=${course.activeChapterId}`
-                              : `/course/${course.id}`
+                              : `/course/${course.id}`,
                           )
                         }
                         className="cursor-pointer group text-left rounded-2xl border border-slate-800 bg-white/[0.03] backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
@@ -205,7 +227,12 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                           className={`h-36 bg-gradient-to-br ${gradients[idx % gradients.length]} flex items-center justify-center relative overflow-hidden`}
                         >
                           {course.imageUrl ? (
-                            <Image src={course.imageUrl} alt={course.title || "Course"} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                            <Image
+                              src={course.imageUrl}
+                              alt={course.title || "Course"}
+                              fill
+                              className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                            />
                           ) : (
                             <BookOpen className="w-10 h-10 text-white/20" />
                           )}
@@ -252,7 +279,7 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                         router.push(
                           course.activeChapterId
                             ? `/course/${course.id}?chapterId=${course.activeChapterId}`
-                            : `/course/${course.id}`
+                            : `/course/${course.id}`,
                         )
                       }
                       className="cursor-pointer group text-left rounded-2xl border border-slate-800 bg-white/[0.03] backdrop-blur-sm overflow-hidden transition-all duration-300 hover:border-blue-500/40 hover:shadow-[0_0_30px_rgba(59,130,246,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
@@ -262,7 +289,12 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
                         className={`h-36 bg-gradient-to-br ${gradients[(inProgress.length + idx) % gradients.length]} flex items-center justify-center relative overflow-hidden`}
                       >
                         {course.imageUrl ? (
-                          <Image src={course.imageUrl} alt={course.title || "Course"} fill className="object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                          <Image
+                            src={course.imageUrl}
+                            alt={course.title || "Course"}
+                            fill
+                            className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                          />
                         ) : (
                           <BookOpen className="w-10 h-10 text-white/20" />
                         )}
@@ -287,7 +319,6 @@ export function DashboardClient({ user, courses }: DashboardClientProps) {
           </div>
         )}
       </main>
-
     </div>
   );
 }

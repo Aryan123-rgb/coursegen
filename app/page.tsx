@@ -179,7 +179,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-xl border border-white/[0.1] text-sm font-medium text-white hover:bg-white/[0.04] transition-colors">
+              <button className="cursor-pointer w-full py-3 rounded-xl border border-white/[0.1] text-sm font-medium text-white hover:bg-white/[0.04] transition-colors">
                 Get Started
               </button>
             </div>
@@ -216,7 +216,7 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
-                <button className="w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-sm font-medium text-white transition-colors shadow-[0_0_20px_rgba(99,102,241,0.25)]">
+                <button className="cursor-pointer w-full py-3 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-sm font-medium text-white transition-colors shadow-[0_0_20px_rgba(99,102,241,0.25)]">
                   Upgrade to Pro
                 </button>
               </div>
@@ -247,7 +247,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-xl border border-white/[0.1] text-sm font-medium text-white hover:bg-white/[0.04] transition-colors">
+              <button className="cursor-pointer w-full py-3 rounded-xl border border-white/[0.1] text-sm font-medium text-white hover:bg-white/[0.04] transition-colors">
                 Contact Sales
               </button>
             </div>
